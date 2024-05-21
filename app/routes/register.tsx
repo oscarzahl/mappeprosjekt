@@ -1,21 +1,36 @@
+import { ActionFunctionArgs } from "@remix-run/node";
+import { Form } from "@remix-run/react";
 import { Button } from "~/components/button";
 import { Input } from "~/components/input";
 import { LinkButton } from "~/components/link-button";
 
-export default function LogIn() {
+export default function Register() {
   return (
     <div className="flex flex-col max-w-screen-sm mx-auto py-24 gap-4">
       <h1 className="font-bold">Register</h1>
-      <Input placeholder="Email" />
-      <Input placeholder="Phonenumber" />
-      <Input placeholder="Username" />
-      <Input placeholder="Password" />
-      <div className="grid grid-cols-2 w-1/2 ml-auto">
-        <LinkButton href={"/login"} className="bg-transparent hover:underline">
-          Existing account?
-        </LinkButton>
-        <Button>Register</Button>
-      </div>
+      <Form method="post">
+        <Input name="email" placeholder="Email" type="email" />
+        <Input name="phone" placeholder="Phonenumber" />
+        <Input name="username" placeholder="Username" />
+        <Input name="password" placeholder="Password" />
+
+        <div className="grid grid-cols-2 w-1/2 ml-auto">
+          <LinkButton href="/login" className="bg-transparent hover:underline">
+            Existing account?
+          </LinkButton>
+          <Button type="submit">Register</Button>
+        </div>
+      </Form>
     </div>
   );
 }
+
+export const action = async ({ request }: ActionFunctionArgs) => {
+  const formData = await request.formData();
+
+  const obj = Object.fromEntries(formData.entries());
+
+  console.log(obj);
+
+  return null;
+};

@@ -1,7 +1,6 @@
 import { cn } from "~/lib/cn";
-import { HTMLAttributes } from "react";
 
-type ButtonProps = HTMLAttributes<HTMLButtonElement>;
+type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement>;
 
 export function Button({ children, className, ...props }: ButtonProps) {
   return (

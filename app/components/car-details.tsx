@@ -1,3 +1,4 @@
+import { useUser } from "~/contexts/user";
 import { type Car } from "~/types";
 
 export interface CarDetailsProps {
@@ -5,6 +6,7 @@ export interface CarDetailsProps {
 }
 
 export default function CarDetails({ car }: CarDetailsProps) {
+  const user = useUser();
   return (
     <div>
       <h1>{car.name}</h1>
@@ -20,6 +22,15 @@ export default function CarDetails({ car }: CarDetailsProps) {
         <div key={index}>
           <p>Rental Company: {price.rental_company}</p>
           <p>Price per day: {price.price_per_day}</p>
+          {user && (
+            <button
+              onClick={() => {
+                alert(`You booked ${car.name} with ${price.rental_company}`);
+              }}
+            >
+              Book now!
+            </button>
+          )}
         </div>
       ))}
     </div>

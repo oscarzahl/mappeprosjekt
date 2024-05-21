@@ -6,7 +6,10 @@ import { type Car } from "~/types";
 
 export async function loader({ params }: LoaderFunctionArgs) {
   const resp = await fetch(
-    `https://run.mocky.io/v3/f788aa5e-dab9-49b5-a366-1848e31a41bb`
+    `https://run.mocky.io/v3/f788aa5e-dab9-49b5-a366-1848e31a41bb`,
+    {
+      method: "GET",
+    }
   );
 
   const jsonData = await resp.json();
@@ -28,7 +31,7 @@ export default function Car() {
 
   return (
     <>
-      {car && <CarDetails car={car} />}
+      <CarDetails car={car} />
       <CarsList cars={cars}></CarsList>
     </>
   );
