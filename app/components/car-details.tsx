@@ -8,7 +8,7 @@ export interface CarDetailsProps {
 export default function CarDetails({ car }: CarDetailsProps) {
   const user = useUser();
   return (
-    <div>
+    <div className="flex flex-col items-center mx-auto mb-8">
       <h1>{car.name}</h1>
       <p>Maker: {car.car_maker}</p>
       <p>Model: {car.car_model}</p>
