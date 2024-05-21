@@ -1,4 +1,4 @@
-import { Car } from "@/data";
+import { type Car } from "~/types";
 import { CarPreview } from "./car-preview";
 
 interface CarsListProps {

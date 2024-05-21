@@ -1,4 +1,4 @@
-import Link from "next/link";
+import { Link } from "@remix-run/react";
 import React from "react";
 
 interface NavLinkProps {
@@ -9,7 +9,7 @@ interface NavLinkProps {
 export function NavLink({ href, children }: NavLinkProps) {
   return (
     <li>
-      <Link href={href}>{children}</Link>
+      <Link to={href}>{children}</Link>
     </li>
   );
 }

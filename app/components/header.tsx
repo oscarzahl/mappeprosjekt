@@ -1,10 +1,10 @@
-import Link from "next/link";
+import { Link } from "@remix-run/react";
 import { NavLink } from "./nav-link";
 
 export function Header() {
   return (
     <header className="p-4 flex items-center justify-between bg-yellow-400">
-      <Link href={"/"}>Rental Roulette</Link>
+      <Link to="/">Rental Roulette</Link>
       <div>
         <nav>
           <ul className="flex items-center gap-4">

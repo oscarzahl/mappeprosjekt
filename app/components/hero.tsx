@@ -1,4 +1,3 @@
-import Link from "next/link";
 import { LinkButton } from "./link-button";
 
 export function Hero() {

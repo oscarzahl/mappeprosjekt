@@ -1,4 +1,4 @@
-import { Car } from "@/data";
+import { type Car } from "~/types";
 import { LinkButton } from "./link-button";
 
 export interface CarPreviewProps {

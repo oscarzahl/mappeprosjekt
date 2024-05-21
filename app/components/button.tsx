@@ -1,4 +1,4 @@
-import { cn } from "@/utils/cn";
+import { cn } from "~/lib/cn";
 import { HTMLAttributes } from "react";
 
 type ButtonProps = HTMLAttributes<HTMLButtonElement>;

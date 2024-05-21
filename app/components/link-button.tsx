@@ -1,6 +1,6 @@
-import Link from "next/link";
 import React from "react";
-import { cn } from "@/utils/cn";
+import { Link } from "@remix-run/react";
+import { cn } from "~/lib/cn";
 
 interface LinkButtonProps {
   href: string;
@@ -11,7 +11,7 @@ interface LinkButtonProps {
 export function LinkButton({ className, href, children }: LinkButtonProps) {
   return (
     <Link
-      href={href}
+      to={href}
       className={cn(
         "inline-flex h-10 px-4 items-center justify-center font-medium bg-yellow-600 rounded-lg",
         className

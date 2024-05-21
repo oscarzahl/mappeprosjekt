@@ -1,6 +1,4 @@
-import { Car } from "@/data";
-import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import { type Car } from "~/types";
 
 export interface CarDetailsProps {
   car: Car;
