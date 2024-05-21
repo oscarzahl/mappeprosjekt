@@ -1,13 +1,13 @@
 import CarDetails from "@/components/car-details";
 import { CarsList } from "@/components/cars-list";
 import { Header } from "@/components/header";
-import { Car } from "@/data";
+import type { Car } from "@/data";
 import { InferGetServerSidePropsType } from "next";
 import { useRouter } from "next/router";
 
 export async function getServerSideProps() {
   const resp = await fetch(
-    `https://run.mocky.io/v3/f3c6a5d5-c603-4c06-84be-cfb106459873`
+    `https://run.mocky.io/v3/f788aa5e-dab9-49b5-a366-1848e31a41bb`
   );
 
   const jsonData = await resp.json();
@@ -22,13 +22,17 @@ export async function getServerSideProps() {
   };
 }
 
-export default function Cars({
+export default function Car({
   cars,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
+  const router = useRouter();
+  const { carid } = router.query;
+  const car = cars.find((car) => car.car_id === Number(carid));
+
   return (
     <div className="bg-yellow-300 min-h-screen">
       <Header />
-      <h1 className="font-bold text-5xl">Cars</h1>
+      {car && <CarDetails car={car} />}
       <CarsList cars={cars}></CarsList>
     </div>
   );

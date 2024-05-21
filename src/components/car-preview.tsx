@@ -13,8 +13,11 @@ export function CarPreview({ car, showDetailed = false }: CarPreviewProps) {
       <ul>
         <div className="text-center">{car.transmission_type}</div>
         <div className="text-center">{car.fuel_type}</div>
+        {showDetailed && (
+          <div className="text-center">Car seats {car.number_of_seats}</div>
+        )}
       </ul>
-      <LinkButton href={""}>Book Now</LinkButton>
+      <LinkButton href={`/cars/${car.car_id}`}>Book Now</LinkButton>
     </div>
   );
 }
