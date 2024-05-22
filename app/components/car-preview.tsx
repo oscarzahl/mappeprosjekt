@@ -1,4 +1,4 @@
-import type { Car } from "@prisma/client";
+import { Car } from "~/types";
 import { LinkButton } from "./link-button";
 
 export interface CarPreviewProps {
@@ -7,14 +7,17 @@ export interface CarPreviewProps {
 }
 
 export function CarPreview({ car }: CarPreviewProps) {
+  const carImg = `http://129.241.153.91/api/api/images/car/${car.carID}`;
   return (
     <div className="flex flex-col justify-center items-center text-center">
-      <h3 className="text-center">{car.brand + " " + car.model}</h3>
-      {/*<img
-        src={car.image}
-        alt={car.name}
-        className="w-64 h-64 object-cover rounded-lg"
-  />*/}
+      <h3 className="text-center">{car.make + " " + car.model}</h3>
+      {
+        <img
+          src={carImg}
+          alt={car.name}
+          className="w-64 h-64 object-cover rounded-lg"
+        />
+      }
       {/* <ul>
         <div className="text-center">{car.transmission_type}</div>
         <div className="text-center">{car.fuel_type}</div>
@@ -22,7 +25,7 @@ export function CarPreview({ car }: CarPreviewProps) {
           <div className="text-center">Car seats {car.number_of_seats}</div>
         )}
       </ul> */}
-      <LinkButton href={`/cars/${car.id}`}>Book Now</LinkButton>
+      <LinkButton href={`/cars/${car.carID}`}>Book Now</LinkButton>
     </div>
   );
 }

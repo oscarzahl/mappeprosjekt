@@ -3,6 +3,7 @@ import { Form, useLoaderData } from "@remix-run/react";
 import { useState } from "react";
 import { CarsList } from "~/components/cars-list";
 import { getAllCars } from "~/lib/db.server";
+import { Car } from "~/types";
 
 export async function loader() {
   return json({
@@ -12,35 +13,30 @@ export async function loader() {
 
 export default function Cars() {
   const { cars } = useLoaderData<{
-    cars: {
-      id: string;
-      name: string;
-      brand: string;
-      model: string;
-      year: number;
-      price: number;
-      image: string;
-      description: string;
-      make: string;
-    }[];
+    cars: Car[];
   }>();
+
   const [make, setMake] = useState("");
   const [search, setSearch] = useState("");
-
-  console.log(cars[0]);
 
   const makes = cars.reduce<string[]>((unique, car) => {
     return unique.includes(car.make) ? unique : [...unique, car.make];
   }, []);
 
   const filteredCars = cars.filter((car) => {
+    const carMake = car.make || "";
+    const carName = car.name || "";
+    const carModel = car.model || "";
+    const carDescription = car.description || "";
+    const carYear = car.year ? car.year.toString() : "";
     return (
-      (make === "" || car.make.toLowerCase().includes(make.toLowerCase())) &&
+      (make === "" || carMake.toLowerCase().includes(make.toLowerCase())) &&
       (search === "" ||
-        car.name.toLowerCase().includes(search.toLowerCase()) ||
-        car.brand.toLowerCase().includes(search.toLowerCase()) ||
-        car.model.toLowerCase().includes(search.toLowerCase()) ||
-        car.description.toLowerCase().includes(search.toLowerCase()))
+        carName.toLowerCase().includes(search.toLowerCase()) ||
+        carMake.toLowerCase().includes(search.toLowerCase()) ||
+        carYear.toString().includes(search) ||
+        carModel.toLowerCase().includes(search.toLowerCase()) ||
+        carDescription.toLowerCase().includes(search.toLowerCase()))
     );
   });
 

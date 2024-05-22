@@ -1,9 +1,8 @@
-import { ActionFunctionArgs, json, redirect } from "@remix-run/node";
+import { ActionFunctionArgs, redirect } from "@remix-run/node";
 import { Form } from "@remix-run/react";
 import { Button } from "~/components/button";
 import { Input } from "~/components/input";
 import { LinkButton } from "~/components/link-button";
-import { prisma } from "~/lib/db.server";
 
 export default function Register() {
   return (
@@ -11,6 +10,8 @@ export default function Register() {
       <h1 className="font-bold">Register</h1>
       <Form method="post">
         <Input name="email" placeholder="Email" type="email" required />
+        <Input name="firstName" placeholder="First Name" required />
+        <Input name="lastName" placeholder="Last Name" required />
         <Input name="phonenumber" placeholder="Phone number" required />
         <Input
           name="password"
@@ -35,27 +36,33 @@ export const action = async ({ request }: ActionFunctionArgs) => {
   const formData = await request.formData();
 
   const email = formData.get("email") as string;
-  const phonenumber = formData.get("phonenumber") as string;
+  const firstName = formData.get("firstName") as string;
+  const lastName = formData.get("lastName") as string;
+  const phoneNumber = formData.get("phonenumber") as string;
   const password = formData.get("password") as string;
 
-  const existingUser = await prisma.user.findUnique({
-    where: {
-      email,
+  const response = await fetch("http://129.241.153.91/api/users", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
     },
+    body: JSON.stringify({
+      firstName,
+      lastName,
+      email,
+      phoneNumber,
+      password,
+      isAdmin: false,
+    }),
   });
 
-  if (!existingUser) {
-    await prisma.user.create({
-      data: {
-        email,
-        phonenumber,
-        password,
-      },
-    });
-    throw redirect("/login");
+  if (!response.ok) {
+    throw new Error("HTTP error! status " + response.status);
   }
 
-  return json({
-    message: "User already exists",
-  });
+  const user = await response.json();
+
+  if (user) {
+    return redirect("/login");
+  }
 };

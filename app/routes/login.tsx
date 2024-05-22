@@ -4,7 +4,6 @@ import { LinkButton } from "~/components/link-button";
 import { Form, useActionData } from "@remix-run/react";
 import { ActionFunctionArgs, json, redirect } from "@remix-run/node";
 import { commitSession, getSession } from "~/lib/session.server";
-import { prisma } from "~/lib/db.server";
 
 export default function LogIn() {
   const actionData = useActionData<typeof action>();
@@ -45,12 +44,24 @@ export const action = async ({ request }: ActionFunctionArgs) => {
   const email = formData.get("email") as string;
   const password = formData.get("password") as string;
 
-  const user = await prisma.user.findFirst({
-    where: {
+  const response = await fetch("http://129.241.153.91/api/users", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
       email,
       password,
-    },
+    }),
   });
+
+  if (response.status === 409) {
+    throw json("A user with that email already exists");
+  } else if (!response.ok) {
+    throw new Error("HTTP status " + response.status);
+  }
+
+  const user = await response.json();
 
   if (user) {
     session.set("userId", user.id);

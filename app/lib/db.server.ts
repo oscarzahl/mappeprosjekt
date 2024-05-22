@@ -1,27 +1,22 @@
-import { PrismaClient } from "@prisma/client";
+export async function getAllCars() {
+  const response = await fetch("http://129.241.153.91/api/cars");
 
-// Borrowed & modified from https://github.com/jenseng/abuse-the-platform/blob/main/app/utils/singleton.ts
-// Thanks @jenseng!
-export const singleton = <Value>(
-  name: string,
-  valueFactory: () => Value
-): Value => {
-  const g = global as unknown as { __singletons: Record<string, unknown> };
-  g.__singletons ??= {};
-  g.__singletons[name] ??= valueFactory();
-  return g.__singletons[name] as Value;
-};
+  if (!response.ok) {
+    throw new Error("HTTP error! status: " + response.status);
+  }
 
-export const prisma = singleton("prisma", () => new PrismaClient());
+  const cars = await response.json();
+  console.log(cars);
+  return cars;
+}
 
-export const getAllCars = async () => {
-  return await prisma.car.findMany();
-};
+export async function getCarById(id: string) {
+  const response = await fetch(`http://129.241.153.91/api/cars/${id}`);
 
-export const getCarById = async (id: string) => {
-  return await prisma.car.findFirst({
-    where: {
-      id,
-    },
-  });
-};
+  if (!response.ok) {
+    throw new Error("HTTP error! status: " + response.status);
+  }
+
+  const car = await response.json();
+  return car;
+}

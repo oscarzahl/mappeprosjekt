@@ -11,7 +11,7 @@ export function CarsList({ cars, showDetailed = false }: CarsListProps) {
     <ul className="grid grid-cols-3 gap-6 max-w-screen-md mx-auto">
       {cars.map((car) => {
         return (
-          <li key={car.name}>
+          <li key={car.carID}>
             <CarPreview car={car} showDetailed={showDetailed} />
           </li>
         );

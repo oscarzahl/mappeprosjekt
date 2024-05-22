@@ -1,5 +1,4 @@
 import { LoaderFunctionArgs, redirect } from "@remix-run/node";
-import { prisma } from "~/lib/db.server";
 import { getSession } from "~/lib/session.server";
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
@@ -10,11 +9,13 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
     throw redirect("/");
   }
 
-  const user = await prisma.user.findFirst({
-    where: {
-      id: userId,
-    },
-  });
+  const response = await fetch("http://129.241.153.91/api/users/" + userId);
+
+  if (!response.ok) {
+    throw new Error("HTTP error! status " + response.status);
+  }
+
+  const user = await response.json();
 
   if (!user?.isAdmin) {
     throw redirect("/");

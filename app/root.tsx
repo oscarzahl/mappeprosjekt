@@ -11,7 +11,6 @@ import stylesheet from "./tailwind.css?url";
 import { Header } from "./components/header";
 import { getSession } from "./lib/session.server";
 import { UserContext } from "./contexts/user";
-import { prisma } from "./lib/db.server";
 
 export const links: LinksFunction = () => {
   return [
@@ -30,11 +29,13 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
     return null;
   }
 
-  const user = await prisma.user.findFirst({
-    where: {
-      id: userId,
-    },
-  });
+  const response = await fetch("http://129.241.153.91/users/" + userId);
+
+  if (!response.ok) {
+    throw new Error("HTTP error! status " + response.status);
+  }
+
+  const user = await response.json();
 
   return user;
 };
