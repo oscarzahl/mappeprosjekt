@@ -13,6 +13,7 @@ export default function Upload() {
   return (
     <Form method="post">
       <Input name="name" placeholder="Name" />
+      <Input name="make" placeholder="Make" />
       <Input name="brand" placeholder="Brand" />
       <Input name="model" placeholder="Model" />
       <Input name="year" placeholder="Year" type="year" />
@@ -31,6 +32,7 @@ export async function action({ request }: { request: Request }) {
   const car = await prisma.car.create({
     data: {
       brand: formData.get("brand") as string,
+      make: formData.get("make") as string,
       description: formData.get("description") as string,
       image: formData.get("image") as string,
       model: formData.get("model") as string,

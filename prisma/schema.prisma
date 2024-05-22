@@ -31,4 +31,5 @@ model Car {
   price       Float
   image       String
   description String
+  make        String
 }

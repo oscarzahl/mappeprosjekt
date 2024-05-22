@@ -16,8 +16,14 @@ export default function LogIn() {
       {actionData?.message && <p>{actionData.message}</p>}
 
       <Form method="post">
-        <Input name="email" placeholder="Email" />
-        <Input name="password" placeholder="Password" type="password" />
+        <Input name="email" placeholder="Email" type="email" required />
+        <Input
+          name="password"
+          placeholder="Password"
+          type="password"
+          required
+          minLength={8}
+        />
         <div className="grid grid-cols-2 w-1/2 ml-auto">
           <LinkButton
             href={"/register"}
