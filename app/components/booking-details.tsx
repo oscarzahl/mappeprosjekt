@@ -1,7 +1,6 @@
 import { ActionFunctionArgs, redirect } from "@remix-run/node";
 import { Form } from "@remix-run/react";
 import { useUser } from "~/contexts/user";
-import { getUserByEmail } from "~/lib/db.server";
 import { Car } from "~/types";
 
 export default function BookingDetails({ car }: { car: Car }) {
@@ -22,7 +21,7 @@ export default function BookingDetails({ car }: { car: Car }) {
         <input type="date" name="endDate" required />
       </label>
       <button type="submit">Book Now</button>
-      <input type="text" value={user?.email} name="userEmail" readOnly />
+      <input type="text" value={user?.id} name="userID" readOnly />
       <input type="text" value={car?.carID} name="carID" readOnly />
     </Form>
   );
@@ -30,7 +29,6 @@ export default function BookingDetails({ car }: { car: Car }) {
 
 export const action = async ({ request }: ActionFunctionArgs) => {
   const formData = await request.formData();
-  const foundUser = await getUserByEmail(formData.get("userEmail") as string);
 
   const response: Response = await fetch("http://129.241.153.91/api/users", {
     method: "POST",
@@ -45,7 +43,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
         carID: formData.get("userID"),
       },
       user: {
-        userID: foundUser.userID,
+        userID: formData.get("userID"),
       },
     }),
   });
