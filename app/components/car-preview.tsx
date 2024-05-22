@@ -10,11 +10,11 @@ export function CarPreview({ car }: CarPreviewProps) {
   return (
     <div className="flex flex-col justify-center items-center text-center">
       <h3 className="text-center">{car.brand + " " + car.model}</h3>
-      <img
+      {/*<img
         src={car.image}
         alt={car.name}
         className="w-64 h-64 object-cover rounded-lg"
-      />
+  />*/}
       {/* <ul>
         <div className="text-center">{car.transmission_type}</div>
         <div className="text-center">{car.fuel_type}</div>
