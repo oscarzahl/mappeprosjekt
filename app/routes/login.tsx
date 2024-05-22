@@ -4,6 +4,7 @@ import { LinkButton } from "~/components/link-button";
 import { Form, useActionData } from "@remix-run/react";
 import { ActionFunctionArgs, json, redirect } from "@remix-run/node";
 import { commitSession, getSession } from "~/lib/session.server";
+import { getUserByEmailAndPassword } from "~/lib/db.server";
 
 export default function LogIn() {
   const actionData = useActionData<typeof action>();
@@ -44,36 +45,22 @@ export const action = async ({ request }: ActionFunctionArgs) => {
   const email = formData.get("email") as string;
   const password = formData.get("password") as string;
 
-  const response = await fetch("http://129.241.153.91/api/users", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      email,
-      password,
-    }),
-  });
-
-  if (response.status === 409) {
-    throw json("A user with that email already exists");
-  } else if (!response.ok) {
-    throw new Error("HTTP status " + response.status);
-  }
-
-  const user = await response.json();
+  const user = await getUserByEmailAndPassword(email, password);
 
   if (user) {
-    session.set("userId", user.id);
+    session.set("userId", user.userID);
 
     throw redirect("/", {
       headers: {
         "Set-Cookie": await commitSession(session),
       },
     });
+  } else {
+    return json(
+      {
+        message: "Invalid email or password",
+      },
+      { status: 401 }
+    );
   }
-
-  return json({
-    message: "Feil brukernavn eller passord",
-  });
 };

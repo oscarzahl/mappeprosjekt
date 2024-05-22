@@ -13,13 +13,14 @@ export function Header() {
           <ul className="flex items-center gap-4">
             <NavLink href="/">Home</NavLink>
             <NavLink href="/cars">Cars</NavLink>
+            <NavLink href="/about">About us</NavLink>
             {!user ? (
               <>
                 <NavLink href="/login">Log In</NavLink>
               </>
             ) : (
               <>
-                {user.isAdmin && <NavLink href="/admin">Admin</NavLink>}
+                {user.admin && <NavLink href="/admin">Admin</NavLink>}
                 <NavLink href="/upload">Upload</NavLink>
                 <Form method="post" action="/logg-ut">
                   <button>Logg ut</button>

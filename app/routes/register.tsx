@@ -1,4 +1,4 @@
-import { ActionFunctionArgs, redirect } from "@remix-run/node";
+import { ActionFunctionArgs, json, redirect } from "@remix-run/node";
 import { Form } from "@remix-run/react";
 import { Button } from "~/components/button";
 import { Input } from "~/components/input";
@@ -55,8 +55,9 @@ export const action = async ({ request }: ActionFunctionArgs) => {
       isAdmin: false,
     }),
   });
-
-  if (!response.ok) {
+  if (response.status === 409) {
+    throw json("A user with that email already exists");
+  } else if (!response.ok) {
     throw new Error("HTTP error! status " + response.status);
   }
 

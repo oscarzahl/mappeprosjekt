@@ -17,7 +17,7 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
 
   const user = await response.json();
 
-  if (!user?.isAdmin) {
+  if (!user?.admin) {
     throw redirect("/");
   }
 

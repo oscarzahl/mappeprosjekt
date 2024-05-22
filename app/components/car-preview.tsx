@@ -25,7 +25,7 @@ export function CarPreview({ car }: CarPreviewProps) {
           <div className="text-center">Car seats {car.number_of_seats}</div>
         )}
       </ul> */}
-      <LinkButton href={`/cars/${car.carID}`}>Book Now</LinkButton>
+      <LinkButton href={`/booking/${car.carID}`}>Book Now</LinkButton>
     </div>
   );
 }

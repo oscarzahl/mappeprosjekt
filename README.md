@@ -1,36 +1,52 @@
 # Welcome to Remix + Vite!
 
-📖 See the [Remix docs](https://remix.run/docs) and the [Remix Vite docs](https://remix.run/docs/en/main/guides/vite) for details on supported features.
+# Rental Roulette
 
-## Development
+## Project Description
 
-Run the Vite dev server:
+Rental Roulette is a car rental platform that revolutionizes the car rental experience by aggregating prices from a myriad of trusted third-party car rental companies. Nestled in the picturesque landscapes of Ålesund, Rental Roulette takes pride in catering specifically to the vibrant community of this stunning coastal town.
 
-```shellscript
+![Screenshot of the website](path/to/screenshot.png)
+
+## Getting Started
+
+### Prerequisites
+
+- Node.js >=18.0.0
+- Prisma >=5.14.0
+
+### Environment Variables
+
+You need to set the following environment variable in your `.env` file:
+
+- `DATABASE_URL`: The URL to your database. For example: "http://129.241.153.91/api"
+
+### Running the Project
+
+1. Install the dependencies:
+
+```sh
+npm install
+```
+
+2. Run the development server:
+
+```sh
 npm run dev
 ```
 
-## Deployment
+### Building and running in Production
 
-First, build your app for production:
+1. Build the project:
 
 ```sh
 npm run build
 ```
 
-Then run the app in production mode:
+2. Start the server:
 
 ```sh
-npm start
+npm run start
 ```
 
-Now you'll need to pick a host to deploy it to.
-
-### DIY
-
-If you're familiar with deploying Node applications, the built-in Remix app server is production-ready.
-
-Make sure to deploy the output of `npm run build`
-
-- `build/server`
-- `build/client`
+### Screenshots

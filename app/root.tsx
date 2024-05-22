@@ -11,6 +11,7 @@ import stylesheet from "./tailwind.css?url";
 import { Header } from "./components/header";
 import { getSession } from "./lib/session.server";
 import { UserContext } from "./contexts/user";
+import { Footer } from "./components/footer";
 
 export const links: LinksFunction = () => {
   return [
@@ -29,7 +30,7 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
     return null;
   }
 
-  const response = await fetch("http://129.241.153.91/users/" + userId);
+  const response = await fetch("http://129.241.153.91/api/users/" + userId);
 
   if (!response.ok) {
     throw new Error("HTTP error! status " + response.status);
@@ -58,7 +59,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
               ? {
                   email: user.email,
                   id: user.id,
-                  isAdmin: user.isAdmin,
+                  admin: user.admin,
                 }
               : null
           }
@@ -67,6 +68,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
           <div className="bg-yellow-300 min-h-screen">
             <Header />
             {children}
+            <Footer />
           </div>
         </UserContext.Provider>
         <ScrollRestoration />
