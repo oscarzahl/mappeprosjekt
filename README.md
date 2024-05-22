@@ -6,7 +6,7 @@
 
 Rental Roulette is a car rental platform that revolutionizes the car rental experience by aggregating prices from a myriad of trusted third-party car rental companies. Nestled in the picturesque landscapes of Ålesund, Rental Roulette takes pride in catering specifically to the vibrant community of this stunning coastal town.
 
-![Screenshot of the website](path/to/screenshot.png)
+![Screenshot of the website](public/screenshotRR.png)
 
 ## Getting Started
 
