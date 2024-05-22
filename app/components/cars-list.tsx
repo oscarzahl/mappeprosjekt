@@ -1,4 +1,4 @@
-import { type Car } from "~/types";
+import type { Car } from "@prisma/client";
 import { CarPreview } from "./car-preview";
 
 interface CarsListProps {

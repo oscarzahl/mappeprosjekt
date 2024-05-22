@@ -1,8 +1,9 @@
-import { ActionFunctionArgs } from "@remix-run/node";
+import { ActionFunctionArgs, redirect } from "@remix-run/node";
 import { Form } from "@remix-run/react";
 import { Button } from "~/components/button";
 import { Input } from "~/components/input";
 import { LinkButton } from "~/components/link-button";
+import { prisma } from "~/lib/db.server";
 
 export default function Register() {
   return (
@@ -10,9 +11,8 @@ export default function Register() {
       <h1 className="font-bold">Register</h1>
       <Form method="post">
         <Input name="email" placeholder="Email" type="email" />
-        <Input name="phone" placeholder="Phonenumber" />
-        <Input name="username" placeholder="Username" />
-        <Input name="password" placeholder="Password" />
+        <Input name="phonenumber" placeholder="Phone number" />
+        <Input name="password" placeholder="Password" type="password" />
 
         <div className="grid grid-cols-2 w-1/2 ml-auto">
           <LinkButton href="/login" className="bg-transparent hover:underline">
@@ -28,9 +28,17 @@ export default function Register() {
 export const action = async ({ request }: ActionFunctionArgs) => {
   const formData = await request.formData();
 
-  const obj = Object.fromEntries(formData.entries());
+  const email = formData.get("email") as string;
+  const phonenumber = formData.get("phonenumber") as string;
+  const password = formData.get("password") as string;
 
-  console.log(obj);
+  await prisma.user.create({
+    data: {
+      email,
+      phonenumber,
+      password,
+    },
+  });
 
-  return null;
+  throw redirect("/login");
 };

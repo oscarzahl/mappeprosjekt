@@ -14,11 +14,17 @@ export function Header() {
             <NavLink href="/">Home</NavLink>
             <NavLink href="/cars">Cars</NavLink>
             {!user ? (
-              <NavLink href="/login">Log In</NavLink>
+              <>
+                <NavLink href="/login">Log In</NavLink>
+              </>
             ) : (
-              <Form method="post" action="/logg-ut">
-                <button>Logg ut</button>
-              </Form>
+              <>
+                {user.isAdmin && <NavLink href="/admin">Admin</NavLink>}
+                <NavLink href="/upload">Upload</NavLink>
+                <Form method="post" action="/logg-ut">
+                  <button>Logg ut</button>
+                </Form>
+              </>
             )}
           </ul>
         </nav>

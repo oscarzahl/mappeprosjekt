@@ -10,7 +10,8 @@ import type { LinksFunction, LoaderFunctionArgs } from "@remix-run/node";
 import stylesheet from "./tailwind.css?url";
 import { Header } from "./components/header";
 import { getSession } from "./lib/session.server";
-import { UserContext } from "~/contexts/user";
+import { UserContext } from "./contexts/user";
+import { prisma } from "./lib/db.server";
 
 export const links: LinksFunction = () => {
   return [
@@ -23,7 +24,17 @@ export const links: LinksFunction = () => {
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
   const session = await getSession(request.headers.get("Cookie"));
-  const user = session.get("userId") ?? null;
+  const userId = session.get("userId") ?? null;
+
+  if (!userId) {
+    return null;
+  }
+
+  const user = await prisma.user.findFirst({
+    where: {
+      id: userId,
+    },
+  });
 
   return user;
 };
@@ -40,8 +51,18 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Links />
       </head>
       <body>
-        <UserContext.Provider value={user}>
-          <p>Logget inn som: {user ?? "Ingen"}</p>
+        <UserContext.Provider
+          value={
+            user
+              ? {
+                  email: user.email,
+                  id: user.id,
+                  isAdmin: user.isAdmin,
+                }
+              : null
+          }
+        >
+          <p>Logget inn som: {user?.email ?? "Ingen"}</p>
           <div className="bg-yellow-300 min-h-screen">
             <Header />
             {children}

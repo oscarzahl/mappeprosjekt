@@ -2,24 +2,17 @@ import type { MetaFunction } from "@remix-run/node";
 import { json, useLoaderData } from "@remix-run/react";
 import { CarsList } from "~/components/cars-list";
 import { Hero } from "~/components/hero";
-import { Car } from "~/types";
+import { getAllCars } from "~/lib/db.server";
 
 export const meta: MetaFunction = () => {
   return [{ title: "Car Roulette" }];
 };
 
 export async function loader() {
-  const resp = await fetch(
-    "https://run.mocky.io/v3/f788aa5e-dab9-49b5-a366-1848e31a41bb"
-  );
-
-  const jsonData = await resp.json();
-
-  // Cast JSON response to an array of cars
-  const data = jsonData.products as Array<Car>;
+  const cars = await getAllCars().then((res) => res.slice(0, 6));
 
   return json({
-    cars: data.slice(0, 6),
+    cars,
   });
 }
 

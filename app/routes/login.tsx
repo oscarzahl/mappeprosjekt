@@ -4,6 +4,7 @@ import { LinkButton } from "~/components/link-button";
 import { Form, useActionData } from "@remix-run/react";
 import { ActionFunctionArgs, json, redirect } from "@remix-run/node";
 import { commitSession, getSession } from "~/lib/session.server";
+import { prisma } from "~/lib/db.server";
 
 export default function LogIn() {
   const actionData = useActionData<typeof action>();
@@ -15,8 +16,8 @@ export default function LogIn() {
       {actionData?.message && <p>{actionData.message}</p>}
 
       <Form method="post">
-        <Input name="username" placeholder="Username" />
-        <Input name="password" placeholder="Password" />
+        <Input name="email" placeholder="Email" />
+        <Input name="password" placeholder="Password" type="password" />
         <div className="grid grid-cols-2 w-1/2 ml-auto">
           <LinkButton
             href={"/register"}
@@ -35,11 +36,18 @@ export const action = async ({ request }: ActionFunctionArgs) => {
   const formData = await request.formData();
   const session = await getSession(request.headers.get("Cookie"));
 
-  const username = formData.get("username") as string;
+  const email = formData.get("email") as string;
   const password = formData.get("password") as string;
 
-  if (username === "oscar" && password === "hei123") {
-    session.set("userId", "oscar");
+  const user = await prisma.user.findFirst({
+    where: {
+      email,
+      password,
+    },
+  });
+
+  if (user) {
+    session.set("userId", user.id);
 
     throw redirect("/", {
       headers: {
